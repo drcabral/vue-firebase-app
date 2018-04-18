@@ -7,7 +7,8 @@ import firebase from 'firebase'
 
 Vue.config.productionTip = false
 
-var config = {
+let app
+let config = {
   apiKey: 'AIzaSyBozILPjuOV94KSrulSNkNF_NAZ9RHTioA',
   authDomain: 'vue-firebase-tutorial-383fb.firebaseapp.com',
   databaseURL: 'https://vue-firebase-tutorial-383fb.firebaseio.com',
@@ -17,11 +18,14 @@ var config = {
 }
 
 firebase.initializeApp(config)
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+firebase.auth().onAuthStateChanged(function (user) {
+  if (!app) {
+    /* eslint-disable no-new */
+    app = new Vue({
+      el: '#app',
+      router,
+      components: { App },
+      template: '<App/>'
+    })
+  }
 })
